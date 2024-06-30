@@ -11,7 +11,7 @@ El cliente tendrá la posibiidad de hacer un seguimiento del estado de su envío
 La distribución de paquetes en sucursal de destino se realiza por medio de cadetes.
 
 ## Diagrama entidad relacion (DER)
-![Diagrama de entidad relación](https://github.com/gabrielpacheco1/proyecto-final-sql-coderhouse/blob/main/DER.PNG)
+![Diagrama de entidad relación](https://github.com/gabrielpacheco1/proyecto-final-sql-coderhouse/blob/main/DER2.png)
 
 ## Listado de tablas y descripcion
 Las tablas resultantes son:
