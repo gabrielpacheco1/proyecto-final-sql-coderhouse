@@ -14,6 +14,33 @@ La distribución de paquetes en sucursal de destino se realiza por medio de cade
 ![Diagrama de entidad relación](https://github.com/gabrielpacheco1/proyecto-final-sql-coderhouse/blob/main/DER.PNG)
 
 ## Listado de tablas y descripcion
+Las tablas resultantes son:
+
+#### CADETE
+| PK/FK| NOMBRE | TIPO DE DATO |
+|-------|----------|----------|
+| PK    | id_cadete| INT   |
+|       | dni_cadete  | VARCHAR   |
+|       | nombre_cadete   | VARCHAR  |
+|       | telefono_cadete   | VARCHAR  |
+
+#### CLIENTE
+| PK/FK| NOMBRE | TIPO DE DATO |
+|-------|----------|----------|
+| PK      | dni_cadete  | VARCHAR   |
+|       | nombre_cliente   | VARCHAR  |
+|       | telefono_cliente   | VARCHAR  |
+|       | email_cliente   | VARCHAR  |
+|       | direccion_cliente   | VARCHAR  |
+
+#### DESPACHO
+| PK/FK| NOMBRE | TIPO DE DATO |
+|-------|----------|----------|
+| PK      | dni_cadete  | VARCHAR   |
+|       | nombre_cliente   | VARCHAR  |
+|       | telefono_cliente   | VARCHAR  |
+|       | email_cliente   | VARCHAR  |
+|       | direccion_cliente   | VARCHAR  |
 
 ## Estructura e ingesta de datos
 
