@@ -1,7 +1,7 @@
 # proyecto-final-sql-coderhouse
 
 ## Temática del proyecto
-Empresa en pleno crecimiento dedicada a realizar encomiendas a nivel nacional necesita informatizar su sistema de envío de paquetes y facturación.
+Una empresa en pleno crecimiento dedicada a realizar encomiendas a nivel nacional necesita informatizar su sistema de envío de paquetes y facturación, debido a que hasta el momento tiene todos la información de los clientes, pedidos realizados, despachos, etc. en papel.
 
 ## Modelo de negocio
 El negocio consiste en los siguientes procesos:
@@ -59,7 +59,7 @@ Datos personales de la persona que debe recibir el envío.
 | PK/FK| NOMBRE | TIPO DE DATO |
 |-------|----------|----------|
 | PK      | id_destinatario  | INT   |
-|       | dni_destinatario   | VARCHAR  |
+| I      | dni_destinatario   | VARCHAR  |
 |       | nombre_destinatario   | VARCHAR  |
 |       | apellido_destinatario  | VARCHAR  |
 |       | telefono_destinatario | VARCHAR  |
@@ -104,7 +104,7 @@ Registra la información general de los pedidos que realizan los clientes.
 | PK/FK| NOMBRE | TIPO DE DATO |
 |-------|----------|----------|
 | PK   |	id_pedido | INT |
-|   | 	estado | ENUM |
+| I  | 	estado | ENUM |
 |   |	cantidad_paquetes | INT |
 | FK   |	dni_cliente | VARCHAR |
 | FK  |    id_destinatario | INT |
