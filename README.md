@@ -14,14 +14,20 @@ La distribución de paquetes en sucursal de destino se realiza por medio de cade
 ![Diagrama de entidad relación](https://github.com/gabrielpacheco1/proyecto-final-sql-coderhouse/blob/main/DER2.png)
 
 ## Listado de tablas y descripcion
-Las tablas resultantes son:
+Luego de algunas minimas modificaciones, tomando en cuenta el DER, las tablas resultantes son:
+
+#### ALCANCE
+| PK/FK| NOMBRE | TIPO DE DATO |
+|-------|----------|----------|
+| PK      | id_alcance  | INT   |
+|       | descripcion_alcance   | ENUM  |
 
 #### CADETE
 | PK/FK| NOMBRE | TIPO DE DATO |
 |-------|----------|----------|
-| PK    | id_cadete| INT   |
-|       | dni_cadete  | VARCHAR   |
+| PK      | dni_cadete  | VARCHAR   |
 |       | nombre_cadete   | VARCHAR  |
+|       | apellido_cadete   | VARCHAR  |
 |       | telefono_cadete   | VARCHAR  |
 
 #### CLIENTE
@@ -29,18 +35,51 @@ Las tablas resultantes son:
 |-------|----------|----------|
 | PK      | dni_cadete  | VARCHAR   |
 |       | nombre_cliente   | VARCHAR  |
-|       | telefono_cliente   | VARCHAR  |
+|       | apellido_cliente   | VARCHAR  |
 |       | email_cliente   | VARCHAR  |
+|       | telefono_cliente   | VARCHAR  |
 |       | direccion_cliente   | VARCHAR  |
 
 #### DESPACHO
 | PK/FK| NOMBRE | TIPO DE DATO |
 |-------|----------|----------|
-| PK      | dni_cadete  | VARCHAR   |
-|       | nombre_cliente   | VARCHAR  |
-|       | telefono_cliente   | VARCHAR  |
-|       | email_cliente   | VARCHAR  |
-|       | direccion_cliente   | VARCHAR  |
+| PK      | id_despacho  | VARCHAR   |
+|       | id_pedido   | INT  |
+|       | id_sucursal   | INT  |
+|       | fecha_despacho   | TIMESTAMP  |
+|       | fecha_recepcion   | TIMESTAMP  |
+|       | encargado_transporte   | TIMESTAMP  |
+
+#### DESTINATARIO
+| PK/FK| NOMBRE | TIPO DE DATO |
+|-------|----------|----------|
+| PK      | id_destinatario  | INT   |
+|       | dni_destinatario   | VARCHAR  |
+|       | nombre_destinatario   | VARCHAR  |
+|       | apellido_destinatario  | VARCHAR  |
+|       | telefono_destinatario | VARCHAR  |
+|       | direccion_destinatario  | VARCHAR  |
+
+#### DISTRIBUCION
+| PK/FK| NOMBRE | TIPO DE DATO |
+|-------|----------|----------|
+| PK  |   id_distribucion| INT|
+|   | 	id_pedido| INT|
+|   |	dni_cadete| VARCHAR|
+|   |	fecha_entrega| TIMESTAMP|
+
+#### FACTURACION
+| PK/FK| NOMBRE | TIPO DE DATO |
+|-------|----------|----------|
+|PK   |id_factura | INT|
+|   |id_pedido | INT|
+|   |id_forma_pago | INT|
+|   |fecha_facturacion | TIMESTAMP|
+|   |monto_total | DOUBLE|
+
+#### FORMA_PAGO
+| PK  |	id_forma_pago | INT|
+|   | 	descripcion_forma_pago | VARCHAR|
 
 ## Estructura e ingesta de datos
 
