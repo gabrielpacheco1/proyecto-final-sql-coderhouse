@@ -17,12 +17,14 @@ La distribución de paquetes en sucursal de destino se realiza por medio de cade
 Luego de algunas minimas modificaciones, tomando en cuenta el DER, las tablas resultantes son:
 
 #### ALCANCE
+Define las distancias de los envíos, las cuales son: local, regional, nacional corta dist y nacional larga dist. 
 | PK/FK| NOMBRE | TIPO DE DATO |
 |-------|----------|----------|
 | PK      | id_alcance  | INT   |
 |       | descripcion_alcance   | ENUM  |
 
 #### CADETE
+Datos personales de los encargados de la distribución de los paquetes.
 | PK/FK| NOMBRE | TIPO DE DATO |
 |-------|----------|----------|
 | PK      | dni_cadete  | VARCHAR   |
@@ -31,6 +33,7 @@ Luego de algunas minimas modificaciones, tomando en cuenta el DER, las tablas re
 |       | telefono_cadete   | VARCHAR  |
 
 #### CLIENTE
+Datos personales de las personas que realizan envíos.
 | PK/FK| NOMBRE | TIPO DE DATO |
 |-------|----------|----------|
 | PK      | dni_cadete  | VARCHAR   |
@@ -41,6 +44,7 @@ Luego de algunas minimas modificaciones, tomando en cuenta el DER, las tablas re
 |       | direccion_cliente   | VARCHAR  |
 
 #### DESPACHO
+Registra los envíos de una sucursal a otra.
 | PK/FK| NOMBRE | TIPO DE DATO |
 |-------|----------|----------|
 | PK      | id_despacho  | VARCHAR   |
@@ -51,6 +55,7 @@ Luego de algunas minimas modificaciones, tomando en cuenta el DER, las tablas re
 |       | encargado_transporte   | TIMESTAMP  |
 
 #### DESTINATARIO
+Datos personales de la persona que debe recibir el envío.
 | PK/FK| NOMBRE | TIPO DE DATO |
 |-------|----------|----------|
 | PK      | id_destinatario  | INT   |
@@ -61,6 +66,7 @@ Luego de algunas minimas modificaciones, tomando en cuenta el DER, las tablas re
 |       | direccion_destinatario  | VARCHAR  |
 
 #### DISTRIBUCION
+Registra datos de la distribución de los envíos que llevan a cabo los cadetes.
 | PK/FK| NOMBRE | TIPO DE DATO |
 |-------|----------|----------|
 | PK  |   id_distribucion| INT|
@@ -69,6 +75,7 @@ Luego de algunas minimas modificaciones, tomando en cuenta el DER, las tablas re
 |   |	fecha_entrega| TIMESTAMP|
 
 #### FACTURACION
+Datos de la factura de un pedido.
 | PK/FK| NOMBRE | TIPO DE DATO |
 |-------|----------|----------|
 |PK   |id_factura | INT|
@@ -78,12 +85,14 @@ Luego de algunas minimas modificaciones, tomando en cuenta el DER, las tablas re
 |   |monto_total | DOUBLE|
 
 #### FORMA_PAGO
+Almacena los tipos de forma de pago para realizar un envío.
 | PK/FK| NOMBRE | TIPO DE DATO |
 |-------|----------|----------|
 | PK  |	id_forma_pago | INT|
 |   | 	descripcion_forma_pago | VARCHAR|
 
 #### PAQUETE
+Almacena los paquetes que fueron enviados.
 | PK/FK| NOMBRE | TIPO DE DATO |
 |-------|----------|----------|
 | PK   |	id_paquete  | INT |
@@ -91,6 +100,7 @@ Luego de algunas minimas modificaciones, tomando en cuenta el DER, las tablas re
 | FK  |	id_tarifa   | INT |
 
 #### PEDIDO
+Registra la información general de los pedidos que realizan los clientes.
 | PK/FK| NOMBRE | TIPO DE DATO |
 |-------|----------|----------|
 | PK   |	id_pedido | INT |
@@ -103,6 +113,7 @@ Luego de algunas minimas modificaciones, tomando en cuenta el DER, las tablas re
 | FK  | 	id_alcance | INT |
 
 #### SUCURSAL
+Registra las sucursales de la empresa.
 | PK/FK| NOMBRE | TIPO DE DATO |
 |-------|----------|----------|
 | PK   |	id_sucursal    | INT |
@@ -110,6 +121,7 @@ Luego de algunas minimas modificaciones, tomando en cuenta el DER, las tablas re
 |   |	direccion_sucursal | VARCHAR |
 
 #### TARIFA
+Almacena los distintos tipos de tarifa de los paquetes, que dependen de su peso y dimensiones.
 | PK/FK| NOMBRE | TIPO DE DATO |
 |-------|----------|----------|
 | PK  |	id_tarifa   | INT |
