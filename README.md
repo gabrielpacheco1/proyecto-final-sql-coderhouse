@@ -130,6 +130,9 @@ Almacena los distintos tipos de tarifa de los paquetes, que dependen de su peso 
 |   |	dimensiones | VARCHAR |
 |   |	costo   | FLOAT |
 
+## EER generado en MySQL
+![MySQL EER](https://github.com/gabrielpacheco1/proyecto-final-sql-coderhouse/blob/main/eer.png)
+
 ## Estructura e ingesta de datos
 
 ## Objetos de la base de datos
