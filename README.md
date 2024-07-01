@@ -133,24 +133,3 @@ Almacena los distintos tipos de tarifa de los paquetes, que dependen de su peso 
 ## EER generado en MySQL
 ![MySQL EER](https://github.com/gabrielpacheco1/proyecto-final-sql-coderhouse/blob/main/eer.png)
 
-## Estructura e ingesta de datos
-
-## Objetos de la base de datos
-
-## Roles y permisos
-admin: control total
-
-
-## Back up de la base de datos
-
-## Herramientas y tecnologias usadas
-MySQL Workbench
-DBeaver
-
-## Como levantar el proyecto en CodeSpaces GitHub
-* env: Archivo con contraseñas y data secretas
-* Makefile: Abstracción de creacción del proyecto
-* docker-compose.yml: Permite generar las bases de datos en forma de contenedores
-
-#### Pasos para arrancar el proyecto
-
