@@ -44,8 +44,8 @@ Luego de algunas minimas modificaciones, tomando en cuenta el DER, las tablas re
 | PK/FK| NOMBRE | TIPO DE DATO |
 |-------|----------|----------|
 | PK      | id_despacho  | VARCHAR   |
-|       | id_pedido   | INT  |
-|       | id_sucursal   | INT  |
+| FK      | id_pedido   | INT  |
+| FK      | id_sucursal   | INT  |
 |       | fecha_despacho   | TIMESTAMP  |
 |       | fecha_recepcion   | TIMESTAMP  |
 |       | encargado_transporte   | TIMESTAMP  |
@@ -64,22 +64,59 @@ Luego de algunas minimas modificaciones, tomando en cuenta el DER, las tablas re
 | PK/FK| NOMBRE | TIPO DE DATO |
 |-------|----------|----------|
 | PK  |   id_distribucion| INT|
-|   | 	id_pedido| INT|
-|   |	dni_cadete| VARCHAR|
+| FK  | 	id_pedido| INT|
+| FK  |	dni_cadete| VARCHAR|
 |   |	fecha_entrega| TIMESTAMP|
 
 #### FACTURACION
 | PK/FK| NOMBRE | TIPO DE DATO |
 |-------|----------|----------|
 |PK   |id_factura | INT|
-|   |id_pedido | INT|
-|   |id_forma_pago | INT|
+| FK  |id_pedido | INT|
+| FK  |id_forma_pago | INT|
 |   |fecha_facturacion | TIMESTAMP|
 |   |monto_total | DOUBLE|
 
 #### FORMA_PAGO
+| PK/FK| NOMBRE | TIPO DE DATO |
+|-------|----------|----------|
 | PK  |	id_forma_pago | INT|
 |   | 	descripcion_forma_pago | VARCHAR|
+
+#### PAQUETE
+| PK/FK| NOMBRE | TIPO DE DATO |
+|-------|----------|----------|
+| PK   |	id_paquete  | INT |
+| FK  | 	id_pedido   | INT |
+| FK  |	id_tarifa   | INT |
+
+#### PEDIDO
+| PK/FK| NOMBRE | TIPO DE DATO |
+|-------|----------|----------|
+| PK   |	id_pedido | INT |
+|   | 	estado | ENUM |
+|   |	cantidad_paquetes | INT |
+| FK   |	dni_cliente | VARCHAR |
+| FK  |    id_destinatario | INT |
+| FK  |	id_sucursal_origen | INT |
+| FK  |	id_sucursal_destino | INT |
+| FK  | 	id_alcance | INT |
+
+#### SUCURSAL
+| PK/FK| NOMBRE | TIPO DE DATO |
+|-------|----------|----------|
+| PK   |	id_sucursal    | INT |
+|   | 	nombre_sucursal    | VARCHAR |
+|   |	direccion_sucursal | VARCHAR |
+
+#### TARIFA
+| PK/FK| NOMBRE | TIPO DE DATO |
+|-------|----------|----------|
+| PK  |	id_tarifa   | INT |
+|   | 	descripcion_tarifa  | ENUM |
+|   |	peso_max    | INT |
+|   |	dimensiones | VARCHAR |
+|   |	costo   | FLOAT |
 
 ## Estructura e ingesta de datos
 
