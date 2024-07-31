@@ -48,7 +48,7 @@ CREATE TABLE distribucion(
 	id_distribucion INT NOT NULL AUTO_INCREMENT PRIMARY KEY
 , 	id_pedido INT NOT NULL
 ,	dni_cadete VARCHAR(11)
-,	fecha_entrega TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP
+,	fecha_entrega TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE facturacion(
