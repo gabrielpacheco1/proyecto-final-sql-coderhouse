@@ -158,5 +158,27 @@ Esta vista proporciona un conteo de los pedidos destinados a cada sucursal. Es �
 Tablas que la componen: 
 pedido (p), sucursal (s).
 
+## Funciones
+Las funciones creadas son las siguientes:
+#### TotalPedidosPorCliente
+La función TotalPedidosPorCliente se utiliza para calcular la cantidad de pedidos realizados por un cliente específico. Esta función es útil para obtener un resumen rápido del número total de pedidos que un cliente ha realizado, lo que puede ser relevante para análisis de comportamiento del cliente, recompensas de lealtad, o simplemente para gestionar el historial de pedidos.
+
+Datos o Tablas que Manipula:
+
+Tabla: pedido
+
+Columna: dni_cliente
+
+#### TotalFacturado
+La función TotalFacturado calcula el monto total facturado en un rango de fechas especificado. Esta función es útil para generar informes financieros, auditorías, y análisis de ingresos en periodos específicos. Ayuda a entender el flujo de ingresos en diferentes intervalos de tiempo, lo que es crucial para la planificación y estrategia financiera.
+
+Datos o Tablas que Manipula:
+
+Tabla: facturacion
+
+Columna: fecha_facturacion
+
+Columna: monto_total
+
 
 
