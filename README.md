@@ -133,3 +133,30 @@ Almacena los distintos tipos de tarifa de los paquetes, que dependen de su peso 
 ## EER generado en MySQL
 ![MySQL EER](https://github.com/gabrielpacheco1/proyecto-final-sql-coderhouse/blob/main/eer.png)
 
+## Vistas
+El listado de vistas creados es el siguiente:
+#### vista_detalle_pedido
+Esta vista proporciona un resumen detallado de cada pedido, incluyendo su estado, las fechas relevantes del despacho y entrega, así como la información del cadete asignado. Es útil para monitorear el estado y progreso de los pedidos.
+
+Tablas que la componen: 
+pedido (p), despacho (d), distribucion (dist), cadete (c).
+
+#### vista_facturacion_tipo_pago
+Esta vista muestra un resumen de la cantidad de pedidos y el monto total facturado para cada tipo de forma de pago. Es útil para analizar la distribución y popularidad de los diferentes métodos de pago.
+
+Tablas que la componen: 
+facturacion (f), forma_pago (fp).
+
+#### vista_pedidos_por_sucursal
+Esta vista proporciona un conteo de los pedidos despachados desde cada sucursal. Es útil para entender el volumen de operaciones y la carga de trabajo de cada sucursal.
+Tablas que la componen: 
+pedido (p), sucursal (s).
+
+#### vista_pedidos_destinados_a_sucursal
+Esta vista proporciona un conteo de los pedidos destinados a cada sucursal. Es útil para entender el destino final de los pedidos y la carga de trabajo esperada en cada sucursal de destino.
+
+Tablas que la componen: 
+pedido (p), sucursal (s).
+
+
+
