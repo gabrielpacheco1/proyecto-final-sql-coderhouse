@@ -180,5 +180,32 @@ Columna: fecha_facturacion
 
 Columna: monto_total
 
+## Procedimientos almacenados
+Los procedimientos almacenados creados son:
+#### obtenerDetallePedido
+El procedimiento almacenado obtenerDetallePedido se utiliza para obtener detalles completos sobre un pedido específico. Este procedimiento facilita la recuperación de información detallada de un pedido, incluyendo datos del cliente, del destinatario, de la sucursal de origen, la sucursal de destino y fechas relevantes del despacho.
 
+Este procedimiento permite a los usuarios del sistema acceder rápidamente a toda la información relevante sobre un pedido en particular, mejorando la eficiencia en la gestión de pedidos y el servicio al cliente.
 
+Tablas que interactúan:
+
+Tabla: pedido
+
+Tabla: cliente
+
+Tabla: destinatario
+
+Tabla: sucursal
+
+Tabla: despacho
+
+#### actualizarEstadoPedido
+El procedimiento almacenado actualizarEstadoPedido se utiliza para actualizar el estado de un pedido específico y registrar esta actualización en una tabla de historial. Este procedimiento permite mantener un registro detallado de todas las actualizaciones de estado de los pedidos, lo que es útil para auditorías y seguimiento del estado de los pedidos.
+
+Este procedimiento asegura que todas las actualizaciones de estado de los pedidos sean registradas automáticamente, proporcionando una trazabilidad completa del historial de cambios de estado de cada pedido. Esto es esencial para el seguimiento de pedidos, gestión de incidencias y análisis de desempeño operativo.
+
+Tablas que interactúan:
+
+Tabla: pedido
+
+Tabla: actualizacion_estado_pedido (tabla creada para registrar los cambios de estado)
