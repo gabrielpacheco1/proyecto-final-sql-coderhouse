@@ -209,3 +209,28 @@ Tablas que interactúan:
 Tabla: pedido
 
 Tabla: actualizacion_estado_pedido (tabla creada para registrar los cambios de estado)
+
+## Triggers
+Los triggers creados son:
+
+#### Trigger actualizar_estado_pedido
+Este trigger se activa después de que se inserte un nuevo registro en la tabla distribucion. Su función principal es actualizar el estado del pedido correspondiente a "ENTREGADO" en la tabla pedido si el campo fecha_entrega en la tabla distribucion tiene un valor no nulo.
+
+Automatiza la actualización del estado del pedido cuando se registra la fecha de entrega, garantizando que la información en la base de datos se mantenga consistente y actualizada sin necesidad de intervención manual. Esto es crucial para reflejar correctamente el estado final del pedido.
+
+Tablas que interactúan:
+
+Tabla: distribucion
+
+Tabla: pedido
+
+#### Trigger registrar_fecha_creacion
+Este trigger se activa después de que se inserte un nuevo registro en la tabla pedido. Su función principal es registrar la fecha y hora de creación de cada pedido en una tabla separada llamada registro_creacion_pedido.
+
+Mantiene un registro preciso de cuándo se creó cada pedido, lo cual es útil para auditorías, análisis de tiempos de procesamiento y seguimiento histórico de los pedidos.
+
+Tablas que interactúan:
+
+Tabla: pedido
+
+Tabla: registro_creacion_pedido (tabla creada para almacenar datos de la creación del pedido)
