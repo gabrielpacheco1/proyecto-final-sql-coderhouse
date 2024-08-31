@@ -25,6 +25,7 @@ GRANT SELECT ON correo_db.pedido TO 'gerente_ventas'@'localhost';
 GRANT SELECT ON correo_db.vista_facturacion_tipo_pago TO 'gerente_ventas'@'localhost';
 GRANT SELECT ON correo_db.vista_pedidos_por_sucursal TO 'gerente_ventas'@'localhost';
 GRANT SELECT ON correo_db.vista_pedidos_destinados_a_sucursal TO 'gerente_ventas'@'localhost';
+GRANT EXECUTE ON PROCEDURE obtenerDetallePedido TO 'gerente_ventas'@'localhost';
 
 
 -- Usuario 'adm_user'
@@ -37,6 +38,7 @@ GRANT SELECT ON correo_db.vista_detalle_pedido TO 'adm_user'@'localhost';
 GRANT SELECT ON correo_db.vista_facturacion_tipo_pago TO 'adm_user'@'localhost';
 GRANT SELECT ON correo_db.vista_pedidos_por_sucursal TO 'adm_user'@'localhost';
 GRANT SELECT ON correo_db.vista_pedidos_destinados_a_sucursal TO 'adm_user'@'localhost';
+GRANT EXECUTE ON PROCEDURE obtenerDetallePedido TO 'adm_user'@'localhost';
 
 
 -- Usuario 'auditor_user'
