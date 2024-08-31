@@ -226,11 +226,11 @@ Las funciones creadas son las siguientes:
 #### TotalPedidosPorCliente
 La función TotalPedidosPorCliente se utiliza para calcular la cantidad de pedidos realizados por un cliente específico. Esta función es útil para obtener un resumen rápido del número total de pedidos que un cliente ha realizado, lo que puede ser relevante para análisis de comportamiento del cliente, recompensas de lealtad, o simplemente para gestionar el historial de pedidos.
 
-Datos o Tablas que Manipula:
+Datos o tablas que Manipula:
 
-Tabla: pedido
+Tablas: pedido
 
-Columna: dni_cliente
+Columnas: dni_cliente
 
 ```sql
 CREATE FUNCTION TotalPedidosPorCliente(dni_cliente_in VARCHAR(11))
@@ -249,13 +249,11 @@ END //
 #### TotalFacturado
 La función TotalFacturado calcula el monto total facturado en un rango de fechas especificado. Esta función es útil para generar informes financieros, auditorías, y análisis de ingresos en periodos específicos. Ayuda a entender el flujo de ingresos en diferentes intervalos de tiempo, lo que es crucial para la planificación y estrategia financiera.
 
-Datos o Tablas que Manipula:
+Datos o tablas que Manipula:
 
-Tabla: facturacion
+Tablas: facturacion
 
-Columna: fecha_facturacion
-
-Columna: monto_total
+Columnas: fecha_facturacion, monto_total
 
 ```sql
 CREATE FUNCTION TotalFacturado(start_date DATE, end_date DATE)
@@ -344,19 +342,90 @@ Este trigger se activa después de que se inserte un nuevo registro en la tabla 
 
 Automatiza la actualización del estado del pedido cuando se registra la fecha de entrega, garantizando que la información en la base de datos se mantenga consistente y actualizada sin necesidad de intervención manual. Esto es crucial para reflejar correctamente el estado final del pedido.
 
-Tablas que interactúan:
+Tablas que interactúan: distribucion, pedido.
 
-Tabla: distribucion
-
-Tabla: pedido
+```sql
+CREATE TRIGGER actualizar_estado_pedido
+AFTER INSERT ON distribucion
+FOR EACH ROW
+BEGIN
+    IF NEW.fecha_entrega IS NOT NULL THEN
+        UPDATE pedido
+        SET estado = 'ENTREGADO'
+        WHERE id_pedido = NEW.id_pedido;
+    END IF;
+END
+```
 
 #### Trigger registrar_fecha_creacion
 Este trigger se activa después de que se inserte un nuevo registro en la tabla pedido. Su función principal es registrar la fecha y hora de creación de cada pedido en una tabla separada llamada registro_creacion_pedido.
 
 Mantiene un registro preciso de cuándo se creó cada pedido, lo cual es útil para auditorías, análisis de tiempos de procesamiento y seguimiento histórico de los pedidos.
 
-Tablas que interactúan:
+Tablas que interactúan: pedido, registro_creacion_pedido (tabla creada para almacenar datos de la creación del pedido).
 
-Tabla: pedido
+```sql
+CREATE TRIGGER registrar_fecha_creacion
+AFTER INSERT ON pedido
+FOR EACH ROW
+BEGIN
+    INSERT INTO registro_creacion_pedido (id_pedido, fecha_creacion)
+    VALUES (NEW.id_pedido, CURRENT_TIMESTAMP);
+END
+```
 
-Tabla: registro_creacion_pedido (tabla creada para almacenar datos de la creación del pedido)
+## Usuarios
+Los usuarios que pueden interactuar con la base de datos son:
+
+#### Usuario admin
+Este usuario tiene todos los privilegios y puede realizar cualquier operación en la base de datos.
+
+```sql
+CREATE USER 'admin'@'localhost' IDENTIFIED BY 'password_admin';
+GRANT ALL PRIVILEGES ON correo_db.* TO 'admin'@'localhost' WITH GRANT OPTION;
+```
+
+#### Usuario cadete_user
+Este usuario tiene permisos limitados para gestionar los datos relacionados con la entrega de pedidos.
+
+```sql
+CREATE USER 'cadete_user'@'localhost' IDENTIFIED BY 'CadetePassword123';
+GRANT SELECT, UPDATE ON correo_db.distribucion TO 'cadete_user'@'localhost';
+GRANT SELECT ON correo_db.pedido TO 'cadete_user'@'localhost';
+GRANT SELECT ON correo_db.vista_detalle_pedido TO 'cadete_user'@'localhost';
+```
+
+#### Usuario gerente_ventas
+Este usuario tiene acceso a los datos relacionados con ventas y facturación.
+
+```sql
+CREATE USER 'gerente_ventas'@'localhost' IDENTIFIED BY 'VentasPassword123';
+GRANT SELECT, INSERT, UPDATE ON correo_db.facturacion TO 'gerente_ventas'@'localhost';
+GRANT SELECT ON correo_db.pedido TO 'gerente_ventas'@'localhost';
+GRANT SELECT ON correo_db.vista_facturacion_tipo_pago TO 'gerente_ventas'@'localhost';
+GRANT SELECT ON correo_db.vista_pedidos_por_sucursal TO 'gerente_ventas'@'localhost';
+GRANT SELECT ON correo_db.vista_pedidos_destinados_a_sucursal TO 'gerente_ventas'@'localhost';
+GRANT EXECUTE ON PROCEDURE obtenerDetallePedido TO 'gerente_ventas'@'localhost';
+```
+
+#### Usuario adm_user
+Este usuario administrativo tiene permisos para gestionar pedidos y datos de clientes
+
+```sql
+CREATE USER 'adm_user'@'localhost' IDENTIFIED BY 'AdmPassword123';
+GRANT SELECT, INSERT, UPDATE, DELETE ON correo_db.pedido TO 'adm_user'@'localhost';
+GRANT SELECT, INSERT, UPDATE, DELETE ON correo_db.cliente TO 'adm_user'@'localhost';
+GRANT SELECT ON correo_db.vista_detalle_pedido TO 'adm_user'@'localhost';
+GRANT SELECT ON correo_db.vista_facturacion_tipo_pago TO 'adm_user'@'localhost';
+GRANT SELECT ON correo_db.vista_pedidos_por_sucursal TO 'adm_user'@'localhost';
+GRANT SELECT ON correo_db.vista_pedidos_destinados_a_sucursal TO 'adm_user'@'localhost';
+GRANT EXECUTE ON PROCEDURE obtenerDetallePedido TO 'adm_user'@'localhost';
+```
+
+#### Usuario auditor_user
+Este usuario tiene permisos solo para consultar datos en la base de datos.
+
+```sql
+CREATE USER 'auditor_user'@'localhost' IDENTIFIED BY 'AuditorPassword123';
+GRANT SELECT ON correo_db.* TO 'auditor_user'@'localhost';
+```
