@@ -141,22 +141,85 @@ Esta vista proporciona un resumen detallado de cada pedido, incluyendo su estado
 Tablas que la componen: 
 pedido (p), despacho (d), distribucion (dist), cadete (c).
 
+```sql
+CREATE VIEW vista_detalle_pedido AS
+SELECT 
+    p.id_pedido,
+    p.estado AS estado_pedido,
+    d.fecha_despacho,
+    d.fecha_recepcion,
+    dist.fecha_entrega,
+    c.dni_cadete,
+    c.nombre_cadete,
+    c.apellido_cadete
+FROM 
+    pedido p
+LEFT JOIN 
+    despacho d ON p.id_pedido = d.id_pedido
+LEFT JOIN 
+    distribucion dist ON p.id_pedido = dist.id_pedido
+LEFT JOIN 
+    cadete c ON dist.dni_cadete = c.dni_cadete;
+```
+
 #### vista_facturacion_tipo_pago
 Esta vista muestra un resumen de la cantidad de pedidos y el monto total facturado para cada tipo de forma de pago. Es útil para analizar la distribución y popularidad de los diferentes métodos de pago.
 
 Tablas que la componen: 
 facturacion (f), forma_pago (fp).
 
+```sql
+CREATE VIEW vista_facturacion_tipo_pago AS
+SELECT 
+    fp.descripcion_forma_pago AS tipo_facturacion,
+    COUNT(f.id_factura) AS cantidad_pedidos,
+    SUM(f.monto_total) AS monto_total
+FROM 
+    facturacion f
+JOIN 
+    forma_pago fp ON f.id_forma_pago = fp.id_forma_pago
+GROUP BY 
+    fp.descripcion_forma_pago;
+```
+
 #### vista_pedidos_por_sucursal
 Esta vista proporciona un conteo de los pedidos despachados desde cada sucursal. Es útil para entender el volumen de operaciones y la carga de trabajo de cada sucursal.
+
 Tablas que la componen: 
 pedido (p), sucursal (s).
+
+```sql
+CREATE VIEW vista_pedidos_por_sucursal AS
+SELECT 
+    s.nombre_sucursal AS "Sucursal despacho",
+    COUNT(p.id_pedido) AS cantidad_pedidos
+FROM 
+    pedido p
+JOIN 
+    sucursal s ON p.id_sucursal_origen = s.id_sucursal
+GROUP BY 
+    s.id_sucursal, s.nombre_sucursal;
+```
 
 #### vista_pedidos_destinados_a_sucursal
 Esta vista proporciona un conteo de los pedidos destinados a cada sucursal. Es útil para entender el destino final de los pedidos y la carga de trabajo esperada en cada sucursal de destino.
 
 Tablas que la componen: 
 pedido (p), sucursal (s).
+
+```sql
+CREATE VIEW vista_pedidos_destinados_a_sucursal AS
+SELECT 
+    s.id_sucursal,
+    s.nombre_sucursal AS "Sucursal destino",
+    COUNT(p.id_pedido) AS cantidad_pedidos
+FROM 
+    pedido p
+JOIN 
+    sucursal s ON p.id_sucursal_destino = s.id_sucursal
+GROUP BY 
+    s.id_sucursal, s.nombre_sucursal;
+```
 
 ## Funciones
 Las funciones creadas son las siguientes:
@@ -169,6 +232,20 @@ Tabla: pedido
 
 Columna: dni_cliente
 
+```sql
+CREATE FUNCTION TotalPedidosPorCliente(dni_cliente_in VARCHAR(11))
+RETURNS INT
+DETERMINISTIC
+BEGIN
+    DECLARE total_pedidos INT;
+    SELECT COUNT(*)
+    INTO total_pedidos
+    FROM pedido
+    WHERE pedido.dni_cliente = dni_cliente_in;
+    RETURN total_pedidos;
+END //
+```
+
 #### TotalFacturado
 La función TotalFacturado calcula el monto total facturado en un rango de fechas especificado. Esta función es útil para generar informes financieros, auditorías, y análisis de ingresos en periodos específicos. Ayuda a entender el flujo de ingresos en diferentes intervalos de tiempo, lo que es crucial para la planificación y estrategia financiera.
 
@@ -180,6 +257,20 @@ Columna: fecha_facturacion
 
 Columna: monto_total
 
+```sql
+CREATE FUNCTION TotalFacturado(start_date DATE, end_date DATE)
+RETURNS DOUBLE
+DETERMINISTIC
+BEGIN
+    DECLARE total_facturado DOUBLE;
+    SELECT SUM(monto_total)
+    INTO total_facturado
+    FROM facturacion
+    WHERE fecha_facturacion BETWEEN start_date AND end_date;
+    RETURN total_facturado;
+END //
+```
+
 ## Procedimientos almacenados
 Los procedimientos almacenados creados son:
 #### obtenerDetallePedido
@@ -187,28 +278,63 @@ El procedimiento almacenado obtenerDetallePedido se utiliza para obtener detalle
 
 Este procedimiento permite a los usuarios del sistema acceder rápidamente a toda la información relevante sobre un pedido en particular, mejorando la eficiencia en la gestión de pedidos y el servicio al cliente.
 
-Tablas que interactúan:
+Tablas que interactúan: pedido, cliente, destinatario, sucursal, despacho
 
-Tabla: pedido
-
-Tabla: cliente
-
-Tabla: destinatario
-
-Tabla: sucursal
-
-Tabla: despacho
+```sql
+CREATE PROCEDURE obtenerDetallePedido (
+    IN p_id_pedido INT
+)
+BEGIN
+    SELECT 
+        pedido.id_pedido,
+        pedido.estado,
+        cliente.nombre_cliente,
+        cliente.apellido_cliente,
+        cliente.email_cliente,
+        cliente.telefono_cliente,
+        destinatario.nombre_destinatario,
+        destinatario.apellido_destinatario,
+        destinatario.telefono_destinatario,
+        destinatario.direccion_destinatario,
+        s_o.nombre_sucursal AS sucursal_origen,
+        despacho.fecha_despacho,
+		s_d.nombre_sucursal AS sucursal_destino,
+        despacho.fecha_recepcion
+    FROM 
+        pedido
+    LEFT JOIN cliente ON pedido.dni_cliente = cliente.dni_cliente
+    LEFT JOIN destinatario ON pedido.id_destinatario = destinatario.id_destinatario
+    LEFT JOIN sucursal s_o ON pedido.id_sucursal_origen = s_o.id_sucursal
+    LEFT JOIN sucursal s_d ON pedido.id_sucursal_destino = s_d.id_sucursal
+    LEFT JOIN despacho ON pedido.id_pedido = despacho.id_pedido
+    WHERE 
+        pedido.id_pedido = p_id_pedido;
+END
+```
 
 #### actualizarEstadoPedido
 El procedimiento almacenado actualizarEstadoPedido se utiliza para actualizar el estado de un pedido específico y registrar esta actualización en una tabla de historial. Este procedimiento permite mantener un registro detallado de todas las actualizaciones de estado de los pedidos, lo que es útil para auditorías y seguimiento del estado de los pedidos.
 
 Este procedimiento asegura que todas las actualizaciones de estado de los pedidos sean registradas automáticamente, proporcionando una trazabilidad completa del historial de cambios de estado de cada pedido. Esto es esencial para el seguimiento de pedidos, gestión de incidencias y análisis de desempeño operativo.
 
-Tablas que interactúan:
+Tablas que interactúan: pedido, actualizacion_estado_pedido (tabla creada para registrar los cambios de estado)
 
-Tabla: pedido
+```sql
+CREATE PROCEDURE actualizarEstadoPedido (
+    IN p_id_pedido INT,
+    IN p_nuevo_estado ENUM('EN SUCURSAL ORIGEN', 'EN PREPARACIÓN', 'EN TRANSPORTE', 'EN SUCURSAL DESTINO', 'EN DISTRIBUCION', 'EN SUCURSAL DESTINO PARA SER RETIRADO', 'ENTREGADO')
+)
+BEGIN
+    -- Actualizar el estado del pedido
+    UPDATE pedido
+    SET estado = p_nuevo_estado
+    WHERE id_pedido = p_id_pedido;
 
-Tabla: actualizacion_estado_pedido (tabla creada para registrar los cambios de estado)
+    -- Registrar la fecha de actualización
+    INSERT INTO actualizacion_estado_pedido (id_pedido, estado, fecha_actualizacion)
+    VALUES (p_id_pedido, p_nuevo_estado, NOW());
+END
+```
 
 ## Triggers
 Los triggers creados son:
